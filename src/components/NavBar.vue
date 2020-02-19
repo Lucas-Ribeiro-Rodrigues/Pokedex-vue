@@ -42,7 +42,7 @@
   }
   .nav-links--item {
     font-weight: bold;
-    font-size: 50px
+    font-size: 2em
   }
   .nav-links--link {
     color: white;

@@ -6,7 +6,8 @@
       <div class="card-text">
         Tipos: 
         <ul class="types-list">
-          <li v-for="(type, index) in types" v-bind:key="index">{{type}}, 
+          <li v-for="(type, index) in types" v-bind:key="index">
+            {{type.type.name}}{{index != types.length-1 ? ',' : null}} 
           </li>
         </ul>
       </div>
