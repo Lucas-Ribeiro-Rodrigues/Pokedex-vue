@@ -2,11 +2,14 @@
   <div class="footer font-white font-big">
       <span class="flex">Criado por Lucas Ribeiro Rodrigues</span>
       <div class="social-media flex">
-        <i class="fa fa-twitter icon" aria-hidden="true"/>
-        <i class="fa fa-instagram icon" aria-hidden="true"/>
-        <i class="fa fa-facebook-official icon" aria-hidden="true"/>
+        <i class="fab fa-facebook icon" />
+        <i class="fab fa-instagram icon" />
+        <i class="fab fa-twitter icon" />
       </div>
-      <span class="flex">Coisa na direita</span>
+      <span class="flex">
+        <img src="https://dextra.com.br/wp-content/themes/siteorigin-corp/images/lp-confidence/logo-dextra.png" 
+          class="image"/>
+      </span>
   </div>
 </template>
 
@@ -43,5 +46,9 @@
   }
   .flex {
     flex: 1,
+  }
+  .image {
+    max-width: 300px;
+    max-height: 2em;
   }
 </style>

@@ -1,14 +1,14 @@
 <template>
   <div class="poke-row" v-on:keydown.right="slideForward" v-on:keydown.left="slideBack">
-  <a href="#" v-on:click.prevent="slideBack" style="color:#2c3e50">
-    <i class="fa fa-arrow-left fa-3x" aria-hidden="true"/>
+  <a href="#" v-on:click.prevent="slideBack" style="color:#2c3e50; margin-left: 5vw">
+    <i class="fas fa-arrow-left fa-3x" aria-hidden="true"/>
   </a>
     <div v-for="(evolution, index) in this.evolutions" v-bind:key="index">
       <PokemonCard :image="evolution.image"
       :name="evolution.name" v-bind:types="evolution.types"/>
     </div>
-  <a href="#" v-on:click="slideForward()" style="color:#2c3e50">
-    <i class="fa fa-arrow-right fa-3x" aria-hidden="true"/>
+  <a href="#" v-on:click="slideForward()" style="color:#2c3e50; margin-right: 5vw">
+    <i class="fas fa-arrow-right fa-3x" aria-hidden="true"/>
   </a>
   </div>
 </template>
@@ -22,6 +22,8 @@
       return {
         pokemons: [],
         evolutions: [],
+        prevEvolutionStack: [],
+        nextEvolutionStack: [],
         prevNumberOfEvolutions: 0
       } 
     },
@@ -70,15 +72,23 @@
       async slideBack() {
         if(this.evolutions[0].id == 1)
           return;
-        const pokemon = await this.findPokemon(this.pokemons[this.evolutions[0].id - this.prevNumberOfEvolutions])
-        this.evolutions = await this.findEvolutions(pokemon)
+
+        this.nextEvolutionStack.push(this.evolutions)
+        this.evolutions = this.prevEvolutionStack.pop()
       },
       async slideForward() {
-        if(this.evolutions[this.evolutions.length-1].id == 1)
+        if(this.evolutions[this.evolutions.length-1].id == 151)
           return;
-        this.prevNumberOfEvolutions = this.evolutions.length + 1 
-        const pokemon = await this.findPokemon(this.pokemons[this.evolutions[this.evolutions.length-1].id])
-        this.evolutions = await this.findEvolutions(pokemon)
+        
+
+        if(this.nextEvolutionStack.length == 0 && this.evolutions[this.evolutions.length-1].id != 151) {
+          const pokemon = await this.findPokemon(this.pokemons[this.evolutions[this.evolutions.length-1].id])
+          const evolutions = await this.findEvolutions(pokemon)
+          this.nextEvolutionStack.push(evolutions)
+        
+        }
+        this.prevEvolutionStack.push(this.evolutions)
+        this.evolutions = this.nextEvolutionStack.pop()
       }
     },
     async beforeMount() {
@@ -97,11 +107,11 @@
     display: flex;
     flex-grow: 1;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-self: stretch;
     align-items: center;
   }
-  i {
-    flex-shrink: 1,
+  a {
+    position: relative;
   }
 </style>
